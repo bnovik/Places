@@ -11,12 +11,8 @@ import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
-import android.view.View
-import android.widget.FrameLayout
 import androidx.appcompat.app.AppCompatActivity
-import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.app.ActivityCompat
-import androidx.fragment.app.Fragment
 import com.example.places.BuildConfig
 import com.example.places.R
 import com.example.places.domain.models.Place
@@ -222,7 +218,7 @@ class MapsActivity : AppCompatActivity() {
         list.forEach {
             val marker = MarkerOptions()
                 .position(LatLng(it.location.latitude, it.location.longitude))
-                .title(it.lable)
+                .title(it.name)
 
             mMap.addMarker(marker)
         }

@@ -8,8 +8,6 @@ open class Place(
     @PrimaryKey
     var id: String = UUID.randomUUID().toString(),
     var location: Location = Location(),
-    var lable: String = "",
+    var name: String = "",
     var address: String = "",
-) : RealmObject() {
-
-}
+) : RealmObject()

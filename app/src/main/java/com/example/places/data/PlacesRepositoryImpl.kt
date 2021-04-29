@@ -19,18 +19,18 @@ class PlacesRepositoryImpl @Inject constructor(
                 index to list
             }
             .flatMap { (index, list) ->
-                val visiblePlaces = list.filter {
-                    latLngBounds.contains(
-                        LatLng(
-                            it.location.latitude,
-                            it.location.longitude
-                        )
-                    )
-                }
                 if (index == 0) {
+                    val visiblePlaces = list.filter {
+                        latLngBounds.contains(
+                            LatLng(
+                                it.location.latitude,
+                                it.location.longitude
+                            )
+                        )
+                    }
                     if (visiblePlaces.isEmpty()) {
                         return@flatMap refreshPlaces(latLng)
-                            .andThen(Flowable.just(0 to visiblePlaces))
+                            .andThen(Flowable.just(index to visiblePlaces))
                     } else {
                         Flowable.just(index to visiblePlaces)
                     }

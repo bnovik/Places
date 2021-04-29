@@ -33,7 +33,7 @@ class PlacesAdapter() : RecyclerView.Adapter<PlacesAdapter.PlaceViewHolder>() {
     inner class PlaceViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
         fun bind(place: Place) {
-            itemView.findViewById<TextView>(R.id.textViewName).text = place.lable
+            itemView.findViewById<TextView>(R.id.textViewName).text = place.name
             itemView.findViewById<TextView>(R.id.textViewAddress).text = place.address
         }
     }

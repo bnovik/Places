@@ -1,6 +1,5 @@
 package com.example.places.data.arcgis
 
-import android.os.Build
 import com.esri.arcgisruntime.geometry.Point
 import com.esri.arcgisruntime.tasks.geocode.GeocodeParameters
 import com.esri.arcgisruntime.tasks.geocode.LocatorTask
@@ -20,8 +19,9 @@ class PlacesRemoteDataSourceImpl @Inject constructor(
             "https://geocode-api.arcgis.com/arcgis/rest/services/World/GeocodeServer"
         private const val POI_CATEGORY = "food"
         private const val PLACE_LIMIT = 20
+        private const val ATTRIBUTE_NAME = "PlaceName"
+        private const val ATTRIBUTE_ADDRESS = "Place_addr"
     }
-
 
     private val locatorTask by lazy {
         LocatorTask(GEOCODE_SERVER_URI).apply {
@@ -29,18 +29,16 @@ class PlacesRemoteDataSourceImpl @Inject constructor(
         }
     }
 
-    override fun fetchPlaces(latLng: LatLng): Single<List<Place>> =
-        fetchNearbyFoodPlaces(latLng)
-    
-    private fun fetchNearbyFoodPlaces(latLng: LatLng): Single<List<Place>> =
-        Single.create { emitter ->
+    override fun fetchPlaces(latLng: LatLng): Single<List<Place>> {
+
+        return Single.create { emitter ->
             val geocodeParameters = GeocodeParameters()
                 .apply {
                     maxResults = PLACE_LIMIT
                     categories.add(POI_CATEGORY)
                     preferredSearchLocation = latLng.toArcGISPoint()
-                    resultAttributeNames.add("PlaceName")
-                    resultAttributeNames.add("Place_addr")
+                    resultAttributeNames.add(ATTRIBUTE_NAME)
+                    resultAttributeNames.add(ATTRIBUTE_ADDRESS)
                 }
 
             val geocodeResultsFuture = locatorTask.geocodeAsync("", geocodeParameters)
@@ -54,8 +52,8 @@ class PlacesRemoteDataSourceImpl @Inject constructor(
                                 it.displayLocation.y,
                                 it.displayLocation.x
                             ),
-                            lable = it.attributes["PlaceName"] as String,
-                            address = it.attributes["Place_addr"] as String
+                            name = it.attributes[ATTRIBUTE_NAME] as String,
+                            address = it.attributes[ATTRIBUTE_ADDRESS] as String
 
                         )
                     })
@@ -64,10 +62,10 @@ class PlacesRemoteDataSourceImpl @Inject constructor(
                 }
             }
         }
+    }
 
 
     private fun LatLng.toArcGISPoint(): Point =
         Point(longitude, latitude, 0.0)
-
 
 }

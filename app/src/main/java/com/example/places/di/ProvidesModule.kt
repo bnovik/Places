@@ -1,10 +1,5 @@
 package com.example.places.di
 
-import com.example.places.data.*
-import com.example.places.data.arcgis.PlacesRemoteDataSourceImpl
-import com.example.places.data.realm.PlacesLocalDataSourceImpl
-import com.example.places.domain.PlacesRepository
-import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -16,13 +11,10 @@ import io.realm.RealmConfiguration
 @InstallIn(ActivityComponent::class)
 class ProvidesModule {
 
-
     @Provides
     fun provideRealmConfiguration(): RealmConfiguration =
         RealmConfiguration.Builder()
             .deleteRealmIfMigrationNeeded()
-            .allowQueriesOnUiThread(true)
-            .allowWritesOnUiThread(true)
             .build()
 
     @Provides
@@ -30,6 +22,4 @@ class ProvidesModule {
         Realm.getInstance(realmConfiguration)
 
 }
-
-
 

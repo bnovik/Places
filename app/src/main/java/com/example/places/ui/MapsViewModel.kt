@@ -9,7 +9,6 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.LatLngBounds
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
-import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 class MapsViewModel @Inject constructor(
@@ -23,7 +22,6 @@ class MapsViewModel @Inject constructor(
 
     fun observePlaces(latLng: LatLng, latLngBounds: LatLngBounds) {
         placesRepository.observePlaces(latLng, latLngBounds)
-            .subscribeOn(Schedulers.io())
             .subscribe {
                 placesMutableLiveData.postValue(it)
             }
