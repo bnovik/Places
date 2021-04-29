@@ -1,0 +1,77 @@
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
+    id 'realm-android'
+    id 'dagger.hilt.android.plugin'
+
+}
+
+android {
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
+
+    defaultConfig {
+        applicationId "com.example.places"
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        versionCode 1
+        versionName "1.0"
+
+        buildConfigField("String", "ARCGIS_API_KEY", '"YOUR_KEY_HERE"')
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
+
+    kapt {
+        arguments {
+            arg("realm.ignoreKotlinNullability", true)
+        }
+    }
+}
+
+dependencies {
+
+    implementation rootProject.ext.deps.kotlin
+    implementation rootProject.ext.deps.androidx.core
+    implementation rootProject.ext.deps.androidx.appcompat
+    implementation rootProject.ext.deps.androidx.constraintlayout
+    implementation rootProject.ext.deps.rx.kotlin
+    implementation rootProject.ext.deps.rx.android
+    implementation rootProject.ext.deps.google.material
+    implementation rootProject.ext.deps.google.gms.maps
+    implementation rootProject.ext.deps.google.gms.location
+    implementation rootProject.ext.deps.arcgis.runtime
+    implementation rootProject.ext.deps.hilt.android
+
+    kapt rootProject.ext.deps.hilt.compiler
+
+    testImplementation rootProject.ext.deps.junit
+    testImplementation rootProject.ext.deps.mockito.core
+    testImplementation rootProject.ext.deps.mockito.kotlin
+
+    androidTestImplementation rootProject.ext.deps.androidx.test.ext
+    androidTestImplementation rootProject.ext.deps.androidx.test.espressoCore
+    androidTestImplementation rootProject.ext.deps.androidTest.core
+    androidTestImplementation rootProject.ext.deps.androidTest.junit
+    androidTestImplementation rootProject.ext.deps.androidTest.runner
+    androidTestImplementation rootProject.ext.deps.androidTest.rules
+}
